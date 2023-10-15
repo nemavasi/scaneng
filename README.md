@@ -9,10 +9,10 @@ Example:
  
 You can see:
 
-unique words count = 13726
+unique words count = 13726 <br>
 
 12712:
-    the
+    the <br>
 	
 5322:
     of
