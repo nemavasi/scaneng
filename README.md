@@ -10,19 +10,27 @@ Example:
 You can see:
 
 unique words count = 13726
+
 12712:
     the
+	
 5322:
     of
+	
 4200:
-    to
+    to	
+	
 3087:
-    and
+    and	
+	
 2538:
-    in
+    in	
+	
 2292:
-    his
+    his	
+	
 2270:
-    said
+    said	
+	
 ...	
 	
