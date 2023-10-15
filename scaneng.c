@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include "redblacktree.h"
 
 static void printHelp();
 static void exitProgram();
@@ -33,17 +34,24 @@ int main (int argc, char **argv) {
 			if (currentPositionInWord == (MAX_WORD_LENGTH - 1)) {
 				oneWord[currentPositionInWord] = 0;
 				printf("Wrong word: %s...\n", oneWord);
+			
 	            exit(1); 
 			}
 		}  else {                
 			oneWord[currentPositionInWord] = 0;
 			if (currentPositionInWord > 1) {
 				printf("%s\n", oneWord);
+
+				char * clonedWord = (char *) malloc(sizeof(char)*strlen(oneWord) + 1);
+				strcpy(clonedWord, oneWord);
+				put(clonedWord, NULL);
 			} 			
 			currentPositionInWord = 0;
 		} 
     }
     
+    printf("unique words count = %d\n", size());
+
     
     int fileClosingResult = fclose(textFile);
     if (fileClosingResult != 0) {
