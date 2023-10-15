@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <string.h>
 #include "redblacktree.h"
+#include "redblacktree2.h"
 
 static void printHelp();
 static void exitProgram();
@@ -49,7 +50,11 @@ int main (int argc, char **argv) {
     }
     
     printf("unique words count = %d\n", size());
-    printSorted();
+    //printSorted();
+    transfer(&putCountForString);
+    printAllOrderedByCountDesc();
+    
+    //    printAllOrderedByCountDesc();
     
     int fileClosingResult = fclose(textFile);
     if (fileClosingResult != 0) {

@@ -1,9 +1,6 @@
 
+int countOfKeys(); 
 
-typedef char * KeyType;
-typedef int ValueType;
+void putCountForString(int count, char * word);
 
-int size(); 
-
-void put (KeyType key, ValueType value);
-void printAll();
+void printAllOrderedByCountDesc();

@@ -7,3 +7,4 @@ int size();
 
 void put (KeyType key, ValueType value);
 void printSorted();
+void transfer(void (*fp)(int, char *));

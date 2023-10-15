@@ -18,10 +18,11 @@ struct tNode{
   int N;  
 };
 
-struct tNode *root;
+static struct tNode *root;
 
 static struct tNode* put_node(struct tNode* h, KeyType keyP, ValueType valueP);
 static void printTree(struct tNode* h);
+static void transferTree(struct tNode* h, void (*fp)(int, char *));
 
 static bool isRed(struct tNode *node){
   if (node == NULL) {
@@ -110,6 +111,7 @@ static struct tNode* put_node(struct tNode* h, KeyType keyP, ValueType valueP) {
 
   return h;  
 }
+
 void printSorted() {
     printTree(root);
 }
@@ -121,6 +123,19 @@ static void printTree(struct tNode* h) {
     printTree(h -> left);
     printf("\"%s\" - %d\n", h -> key, h -> value);
     printTree(h -> right);
+}
+
+void transfer(void (*fp)(int, char *)) {
+  transferTree(root, fp);
+}
+
+static void transferTree(struct tNode* h, void (*fp)(int, char *)) {
+    if (h == NULL){
+        return;
+    }
+    transferTree(h -> left, fp);
+    (*fp)(h -> value, h -> key);
+    transferTree(h -> right, fp);
 }
 
 

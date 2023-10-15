@@ -4,39 +4,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "redblacktree.h"
+#include "redblacktree2.h"
 
 static const bool RED = true;
 static const bool BLACK = false;
 
-struct tNode{
+struct LinkedString {
+  char * str;
+  struct LinkedString * next;
+};
 
-  KeyType key;
-  ValueType value;
-  struct tNode *left, *right;
+//void putToLinkedTreeMap(int count, char * word);
+
+//void printAllOrderedByCountDesc();
+
+
+struct rbNode{
+  int key;
+  struct LinkedString * value;
+  struct rbNode *left, *right;
   bool color;
   int N;  
 };
 
-struct tNode *root;
+static struct rbNode *root;
 
-static struct tNode* put_node(struct tNode* h, KeyType keyP, ValueType valueP);
-static void printTree(struct tNode* h);
+static struct rbNode* put_node(struct rbNode* h, int keyP, struct LinkedString * valueP);
+static void printTree(struct rbNode* h);
 
-static bool isRed(struct tNode *node){
+static bool isRed(struct rbNode *node){
   if (node == NULL) {
     return false;
   }
   return node->color == RED;
 }
 
-static void flipColors(struct tNode *node){
+static void flipColors(struct rbNode *node){
   node->color = RED;
   node->left->color = BLACK;
   node->right->color = BLACK;  
 }
 
-static int size_node(struct tNode *node){
+static int size_node(struct rbNode *node){
   if (node == NULL){
     return 0;
   } else {
@@ -45,12 +54,12 @@ static int size_node(struct tNode *node){
 }
 
 
-int size(){
+int countOfKeys(){
   return size_node(root);
 }
 
-static struct tNode * rotateLeft(struct tNode *h){
-  struct tNode *x = h -> right;
+static struct rbNode * rotateLeft(struct rbNode *h){
+  struct rbNode *x = h -> right;
   h -> right = x -> left;
   x -> left = h;
   x -> color = h -> color;
@@ -60,8 +69,8 @@ static struct tNode * rotateLeft(struct tNode *h){
   return x;
 }
 
-static struct tNode * rotateRight(struct tNode *h){
-  struct tNode *x = h -> left;
+static struct rbNode * rotateRight(struct rbNode *h){
+  struct rbNode *x = h -> left;
   h -> left = x -> right;
   x -> right = h;
   x -> color = h -> color;
@@ -72,14 +81,17 @@ static struct tNode * rotateRight(struct tNode *h){
 }
 
 
-void put(KeyType key, ValueType value){
-  root = put_node(root, key, value);
+void putCountForString(int key, char * str){
+  struct LinkedString * value = (struct LinkedString *) malloc(sizeof(struct LinkedString));
+  value -> str = str;
+  value -> next = NULL;
+  root = put_node(root, key, value);  
   root -> color = BLACK;
 }
 
-static struct tNode* put_node(struct tNode* h, KeyType keyP, ValueType valueP) {  
+static struct rbNode* put_node(struct rbNode* h, int keyP, struct LinkedString * valueP) {  
   if (h == NULL){
-    struct tNode* result = (struct tNode*) malloc(sizeof(struct tNode));
+    struct rbNode* result = (struct rbNode*) malloc(sizeof(struct rbNode));
     result -> key = keyP;
     result -> value = valueP;
     result -> N = 1;
@@ -87,14 +99,17 @@ static struct tNode* put_node(struct tNode* h, KeyType keyP, ValueType valueP) {
     return result;
   }
 
-  int cmp = strcmp(keyP, h -> key);
+  int cmp = keyP - (h -> key);
   if (cmp < 0) {
     h -> left = put_node(h -> left, keyP, valueP);
   } else if (cmp > 0){
     h -> right = put_node(h -> right, keyP, valueP);
   } else {
     //h -> value = valueP;
-    h -> value++;
+    //h -> value++;
+    struct LinkedString * temp = h -> value;
+    h -> value = valueP;
+    h -> value -> next = temp;
   }
 
   if (isRed(h -> right) && !isRed(h -> left)) {
@@ -110,18 +125,35 @@ static struct tNode* put_node(struct tNode* h, KeyType keyP, ValueType valueP) {
 
   return h;  
 }
-void printAll() {
+void printAllOrderedByCountDesc() {
     printTree(root);
 }
 
-static void printTree(struct tNode* h) {
+static void printTree(struct rbNode* h) {
     if (h == NULL){
         return;
     }
-    printTree(h -> left);
-    printf("\"%s\" - %d\n", h -> key, h -> value);
+
     printTree(h -> right);
+    printf("%d:\n", h -> key);
+    struct LinkedString * currentNodePointer = h -> value;
+    while(currentNodePointer != NULL) {
+      printf("    %s\n", currentNodePointer -> str);
+      currentNodePointer = currentNodePointer -> next;
+    }
+    printTree(h -> left);    
 }
 
+/*
+void main() {
+  
+  putCountForString(42, "sdsdfghhghsd");
+  putCountForString(32, "sdsdfsd");
+  putCountForString(22, "sddfhsdfsd");
+  putCountForString(22, "sdsdsdfsd");
+
+  printAllOrderedByCountDesc();
+}
+*/
 
 
