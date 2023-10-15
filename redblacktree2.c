@@ -110,7 +110,7 @@ static struct tNode* put_node(struct tNode* h, KeyType keyP, ValueType valueP) {
 
   return h;  
 }
-void printSorted() {
+void printAll() {
     printTree(root);
 }
 

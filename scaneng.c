@@ -40,18 +40,16 @@ int main (int argc, char **argv) {
 		}  else {                
 			oneWord[currentPositionInWord] = 0;
 			if (currentPositionInWord > 1) {
-				printf("%s\n", oneWord);
-
 				char * clonedWord = (char *) malloc(sizeof(char)*strlen(oneWord) + 1);
 				strcpy(clonedWord, oneWord);
-				put(clonedWord, NULL);
+				put(clonedWord, 1);
 			} 			
 			currentPositionInWord = 0;
 		} 
     }
     
     printf("unique words count = %d\n", size());
-
+    printSorted();
     
     int fileClosingResult = fclose(textFile);
     if (fileClosingResult != 0) {
